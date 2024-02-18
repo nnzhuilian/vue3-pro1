@@ -6,16 +6,18 @@
     <PersonVue />
     <!-- v-if false删除元素/ v-show false屏蔽元素 -->
     <RoleVue v-if="show" v-show="block"/> 
+    <WeaponVue />
   </div>
 </template>
 
 <script>
 import PersonVue from "./components/Person.vue";
 import RoleVue from "./components/Role.vue";
+import WeaponVue from "./components/Weapon.vue"
 
 export default {
   name: 'APP',
-  components: { PersonVue, RoleVue },
+  components: { PersonVue, RoleVue, WeaponVue},
   data() {
     return {
       show: true,

@@ -15,7 +15,7 @@ function sendAlert() {
 }
 </script>
 
-<style>
+<style scoped>
 .person {
     background-color: aliceblue;
     border-radius: 2px;

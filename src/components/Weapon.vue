@@ -21,70 +21,20 @@
 </template>
 
 <script setup lang="ts" name = "WeaponVue">
-import { toRefs, reactive, computed, watch, ref, watchEffect, defineExpose } from "vue"
+import { watch, watchEffect, defineExpose } from "vue"
+import useClothes from '@/hooks/useClothes'
+import useHats from '@/hooks/useHat'
+import useWeapon from '@/hooks/useWeapon'
 
-let weapon = reactive({
-    name: '白星',
-    level: 1,
-    color: 'white'
-})
+const { cloth, addSize, changeCloths } = useClothes()
+const { hat, changeHatColor, changeHatType, changeHatBrand } = useHats()
+const { weapon, nameLevel, stopWatch,changeName, clearLevel, addLevel } = useWeapon()
 
-let { name, level, color } = toRefs(weapon)
-
-let nameLevel = computed({
-    get() {
-        return level.value + name.value;
-    },
-    set(val) {
-        level.value = Number(val);
-    }
-})
-
-const stopWatch = watch(level, (newValue, oldValue) => {
-    console.log(newValue, oldValue)
-    if (newValue > 10) {
-        stopWatch()
-    }
-})
-
-function changeName() {
-    name.value = '护膜'
-}
-
-function clearLevel() {
-    nameLevel.value = '0'
-}
-
-function addLevel() {
-    level.value += 1;
-}
-
-let cloth = ref({
-    name: '衣服',
-    size: 1
-})
-
-function addSize() {
-    cloth.value.size += 1;
-}
-
-function changeCloths() {
-    cloth.value = { name: '大衣', size: 2 }
-}
+stopWatch
 
 watch(cloth, (newValue, oldValue) => {
     console.log(newValue, oldValue);
 }, { deep: true })
-
-
-let hat = reactive({
-    color: "red",
-    type: "circle",
-    brand: {
-        name: "sb",
-        price: 10000
-    }
-})
 
 watch(() => hat.color, (newV, oldV) => {
     console.log("color", newV, oldV);
@@ -98,27 +48,17 @@ watch(() => hat.brand, (newV, oldV) => {
 watch([() => hat.color, hat.brand], (newV, oldV) => {
     console.log("array", newV, oldV);
 })
-
-function changeHatColor() {
-    hat.color = "white"
-}
-function changeHatType() {
-    hat.type = "square"
-}
-function changeHatBrand() {
-    hat.brand = { name: "ab", price: 20 }
-}
-
 watchEffect(() => {
     if (hat.brand.price < 100) {
         alert("阿西吧")
     }
 })
-defineExpose({hat})
+// 此处把hat暴露给父组件APP.vue
+defineExpose({ hat })
 </script>
 
 <style scoped>
 .weapon {
     background-color: white
 }
-</style>
+</style>@/hooks/useClothes
